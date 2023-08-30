@@ -9,7 +9,7 @@ set(CMAKE_CXX_STANDARD 17)
 
 pico_sdk_init()
 
-add_executable(${PROJECT_NAME} main.c)
+add_executable(${PROJECT_NAME} main.c bmp280.c)
 
 # Add the I2C related lines here
 target_link_libraries(${PROJECT_NAME} pico_stdlib hardware_i2c)
