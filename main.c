@@ -11,7 +11,7 @@ int main() {
     int32_t tempReading, pressureReading;
     int addr = 0x76; // BMP280 I2C address
     uint8_t data[8];
-    int16_t* calib_data;
+    int16_t calib_data[12];
     int32_t t_fine;
     
     stdio_init_all();
@@ -24,13 +24,14 @@ int main() {
     gpio_pull_up(17);
 
     bmp280Config();
-    calib_data = bmp280Calib();
+    bmp280Calib(calib_data);
 
     sleep_ms(1000);
-
+    
     while(true){
 
-    uint8_t data[8];
+        for(int loop = 0; loop < 8; loop++)
+    printf("%d   ", calib_data[loop]);
     i2c_write_blocking(i2c0, addr, "\xF7", 1, true);
     i2c_read_blocking(i2c0, addr, data, 8, false);
     pressureReading = (data[0] << 12) | (data[1] << 4) | (data[2] >> 4);
@@ -44,7 +45,7 @@ int main() {
     printf("Pressure : %dPa\n", pressure);
     printf("Temperature in Celsius : %.2f C\n", cTemp);
    
-    sleep_ms(5000);
+    sleep_ms(2000);
     }
     return 0;
 }

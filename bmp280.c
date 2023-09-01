@@ -24,28 +24,29 @@ double calculateAltitude(double pressure, double temperature) {
 
 
 
-int16_t* bmp280Calib(){
+int16_t* bmp280Calib(int16_t* calib_data){
 
     uint8_t calib_raw_data[24];
-    int16_t data[12];
-    
+   // int16_t data[12];
+
     i2c_write_blocking(i2c0, addr, "\x88", 1, true);
     i2c_read_blocking(i2c0, addr, calib_raw_data, 24, false);
 
-    data[0] = (calib_raw_data[1] << 8) | calib_raw_data[0];
-    data[1] = (calib_raw_data[3] << 8) | calib_raw_data[2];
-    data[2] = (calib_raw_data[5] << 8) | calib_raw_data[4];
-    data[3] = (calib_raw_data[7] << 8) | calib_raw_data[6];
-    data[4]= (calib_raw_data[9] << 8) | calib_raw_data[8];
-    data[5] = (calib_raw_data[11] << 8) | calib_raw_data[10];
-    data[6] = (calib_raw_data[13] << 8) | calib_raw_data[12];
-    data[7] = (calib_raw_data[15] << 8) | calib_raw_data[14];
-    data[8] = (calib_raw_data[17] << 8) | calib_raw_data[16];
-    data[9] = (calib_raw_data[19] << 8) | calib_raw_data[18];
-    data[10] = (calib_raw_data[21] << 8) | calib_raw_data[20];
-    data[11] = (calib_raw_data[23] << 8) | calib_raw_data[22];
-
-    return data;
+    calib_data[0] = (calib_raw_data[1] << 8) | calib_raw_data[0];
+    calib_data[1] = (calib_raw_data[3] << 8) | calib_raw_data[2];
+    calib_data[2] = (calib_raw_data[5] << 8) | calib_raw_data[4];
+    calib_data[3] = (calib_raw_data[7] << 8) | calib_raw_data[6];
+    calib_data[4] = (calib_raw_data[9] << 8) | calib_raw_data[8];
+    calib_data[5] = (calib_raw_data[11] << 8) | calib_raw_data[10];
+    calib_data[6] = (calib_raw_data[13] << 8) | calib_raw_data[12];
+    calib_data[7] = (calib_raw_data[15] << 8) | calib_raw_data[14];
+    calib_data[8] = (calib_raw_data[17] << 8) | calib_raw_data[16];
+    calib_data[9] = (calib_raw_data[19] << 8) | calib_raw_data[18];
+    calib_data[10] = (calib_raw_data[21] << 8) | calib_raw_data[20];
+    calib_data[11] = (calib_raw_data[23] << 8) | calib_raw_data[22];
+    sleep_ms(10000);
+    
+    return 0;
 }
 
 int32_t bmp280CalcTemp(int32_t adc_T, int16_t dig_T1, int16_t dig_T2, int16_t dig_T3){
